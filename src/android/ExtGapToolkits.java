@@ -43,6 +43,8 @@ import android.graphics.BitmapFactory;
  */
 public class ExtGapToolkits extends CordovaPlugin {
 
+	public static final String DTAG="ExtGapToolkits---->>";
+	
     /**
      * Constructor.
      */
@@ -83,9 +85,10 @@ public class ExtGapToolkits extends CordovaPlugin {
             return false;
         }
 
+//        Unreachable code
         // Only alert and confirm are async.
-        callbackContext.success();
-        return true;
+//        callbackContext.success();
+//        return true;
     }
 
     //--------------------------------------------------------------------------
@@ -109,9 +112,9 @@ public class ExtGapToolkits extends CordovaPlugin {
     
     public void clipImage(String src,String dest,int x,int y,int w,int h) {
 	    BitmapFactory.Options opt = new BitmapFactory.Options();
-	    opt.inPreferredConfig=Bitmap.Config.RGB_565;//表示16位位图 565代表对应三原色占的位数
+	    opt.inPreferredConfig=Bitmap.Config.RGB_565;//锟斤拷示16位位图 565锟斤拷锟斤拷应锟斤拷原色占锟斤拷位锟斤拷
 	    opt.inInputShareable=true;
-	    opt.inPurgeable=true;//设置图片可以被回收
+	    opt.inPurgeable=true;//锟斤拷锟斤拷图片锟斤拷锟皆憋拷锟斤拷锟斤拷
 	    opt.inTempStorage = new byte[1024*1024*10];
 	    
     	Bitmap bitmap  = BitmapFactory.decodeFile(src,opt);//decodeStream
@@ -124,9 +127,9 @@ public class ExtGapToolkits extends CordovaPlugin {
 	
     public void resizeImage(String src,String dest,int sample,int quality) {
 		BitmapFactory.Options opt = new BitmapFactory.Options();
-		opt.inPreferredConfig=Bitmap.Config.RGB_565;//表示16位位图 565代表对应三原色占的位数
+		opt.inPreferredConfig=Bitmap.Config.RGB_565;//锟斤拷示16位位图 565锟斤拷锟斤拷应锟斤拷原色占锟斤拷位锟斤拷
 		opt.inInputShareable=true;
-		opt.inPurgeable=true;//设置图片可以被回收
+		opt.inPurgeable=true;//锟斤拷锟斤拷图片锟斤拷锟皆憋拷锟斤拷锟斤拷
 		opt.inTempStorage = new byte[1024*1024*10];
 		opt.inSampleSize = sample;
 	    Bitmap bitmap  = BitmapFactory.decodeFile(src,opt);//decodeStream
