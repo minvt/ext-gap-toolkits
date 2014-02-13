@@ -27,13 +27,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 //
 import android.util.Log;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 //
@@ -60,11 +66,28 @@ public class ExtGapToolkits extends CordovaPlugin {
      * @return                  True when the action was valid, false otherwise.
      */
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+
+        PluginResult.Status status = PluginResult.Status.OK;
+        String result = "";
+
         // dirty inject
         if (action.equals("droidNaviTo")) {
 			Log.i(DTAG,"droidNaviTo  begin");
             this.droidNaviTo(args.getString(0),args.getString(1));
 			Log.i(DTAG,"droidNaviTo  end");
+            //callbackContext.sendPluginResult(new PluginResult(status, b));//
+            return true;
+        }else if (action.equals("haveInstalledBaiduMap")) {
+			Log.i(DTAG,"haveInstalledBaiduMap  begin");
+			boolean b=this.haveInstalledBaiduMap();
+			callbackContext.sendPluginResult(new PluginResult(status,b));
+			Log.i(DTAG,"haveInstalledBaiduMap  end");
+            //callbackContext.sendPluginResult(new PluginResult(status, b));//
+            return true;
+        }else if (action.equals("naviWithBaiduMap")) {
+			Log.i(DTAG,"naviWithBaiduMap  begin");
+            this.naviWithBaiduMap(args.getString(0),args.getString(1));
+			Log.i(DTAG,"naviWithBaiduMap  end");
             //callbackContext.sendPluginResult(new PluginResult(status, b));//
             return true;
         }else if (action.equals("clipImage")) {
@@ -108,13 +131,46 @@ public class ExtGapToolkits extends CordovaPlugin {
 		    this.cordova.getActivity().startActivity(i);
     }
 	
+	public boolean haveInstalledBaiduMap() {  
+		Context context=this.cordova.getActivity();
+	    PackageManager packageManager = context.getPackageManager();  
+	    try {  
+	        PackageInfo pInfo = packageManager.getPackageInfo("com.baidu.BaiduMap",  
+	                PackageManager.COMPONENT_ENABLED_STATE_DEFAULT); 
+	        //判断是否获取到了对应的包名信息 
+	        if(pInfo!=null){  
+	            return true;
+	        }  
+	    } catch (NameNotFoundException e) {  
+	        e.printStackTrace();  
+	    }  
+	    return false;
+	} 
+
+		//naviWithBaiduMap(mContext,"31.32312,120.62134","34.264642646862,108.95108518068");
+	public void naviWithBaiduMap(String origin,String destination) {  
+		Context context=this.cordova.getActivity();
+        //移动APP调起Android百度地图方式举例
+        Intent intent = null;
+		try {
+//			intent = Intent.getIntent("intent://map/direction?origin=latlng:34.264642646862,108.95108518068|name:我家&destination=大雁塔&mode=driving&region=西安&src=yourCompanyName|yourAppName#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
+//			intent = Intent.getIntent("intent://map/direction?origin=latlng:31.32312,120.62134|name:起点&destination=latlng:34.264642646862,108.95108518068|name:终点&mode=driving&src=XiaoXun|XiaoXun#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
+			intent = Intent.getIntent("intent://map/direction?origin=latlng:"+origin+"|name:起点&destination=latlng:"+destination+"|name:终点&mode=driving&src=XiaoXun|XiaoXun#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
+
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+		context.startActivity(intent); //启动调用
+       //
+	}
 	
     
     public void clipImage(String src,String dest,int x,int y,int w,int h) {
 	    BitmapFactory.Options opt = new BitmapFactory.Options();
-	    opt.inPreferredConfig=Bitmap.Config.RGB_565;//��ʾ16λλͼ 565����Ӧ��ԭɫռ��λ��
+	    opt.inPreferredConfig=Bitmap.Config.RGB_565;//表示16位位图 565代表对应三原色占的位数
 	    opt.inInputShareable=true;
-	    opt.inPurgeable=true;//����ͼƬ���Ա�����
+	    opt.inPurgeable=true;//设置图片可以被回收
 	    opt.inTempStorage = new byte[1024*1024*10];
 	    
     	Bitmap bitmap  = BitmapFactory.decodeFile(src,opt);//decodeStream
@@ -127,9 +183,9 @@ public class ExtGapToolkits extends CordovaPlugin {
 	
     public void resizeImage(String src,String dest,int sample,int quality) {
 		BitmapFactory.Options opt = new BitmapFactory.Options();
-		opt.inPreferredConfig=Bitmap.Config.RGB_565;//��ʾ16λλͼ 565����Ӧ��ԭɫռ��λ��
+		opt.inPreferredConfig=Bitmap.Config.RGB_565;//表示16位位图 565代表对应三原色占的位数
 		opt.inInputShareable=true;
-		opt.inPurgeable=true;//����ͼƬ���Ա�����
+		opt.inPurgeable=true;//设置图片可以被回收
 		opt.inTempStorage = new byte[1024*1024*10];
 		opt.inSampleSize = sample;
 	    Bitmap bitmap  = BitmapFactory.decodeFile(src,opt);//decodeStream

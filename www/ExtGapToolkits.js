@@ -31,15 +31,25 @@ module.exports = {
    // dirty inject
 
 	droidNaviTo:function(lat,lon) {
-	    exec(null,null, "Notification", "droidNaviTo", [lat,lon]);
+	    exec(null,null, "ExtGapToolkits", "droidNaviTo", [lat,lon]);
+	},
+
+	haveInstalledBaiduMap:function(success) {
+	    exec(function(b) {
+				success(b);
+				},null, "ExtGapToolkits", "haveInstalledBaiduMap", null);
+	},
+
+	naviWithBaiduMap:function(origin,destination) {
+	    exec(null,null, "ExtGapToolkits", "naviWithBaiduMap", [origin,destination]);
 	},
 	
 	clipImage:function(src,dest,x,y,w,h) {
-	    exec(null,null, "Notification", "clipImage", [src,dest,x,y,w,h]);
+	    exec(null,null, "ExtGapToolkits", "clipImage", [src,dest,x,y,w,h]);
 	},
 	
 	resizeImage:function(src,dest,sample,quality) {
-	    exec(null, null, "Notification", "resizeImage", [src,dest,sample,quality]);
+	    exec(null, null, "ExtGapToolkits", "resizeImage", [src,dest,sample,quality]);
 	}
 
 
