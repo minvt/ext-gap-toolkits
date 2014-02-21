@@ -34,10 +34,14 @@ module.exports = {
 	    exec(null,null, "ExtGapToolkits", "droidNaviTo", [lat,lon]);
 	},
 
+	//haveInstalledBaiduMap:function(success) {
+	//    exec(function(b) {
+	//			success(b);
+	//			},null, "ExtGapToolkits", "haveInstalledBaiduMap", null);
+	//},
+
 	haveInstalledBaiduMap:function(success) {
-	    exec(function(b) {
-				success(b);
-				},null, "ExtGapToolkits", "haveInstalledBaiduMap", null);
+	    exec(success,null, "ExtGapToolkits", "haveInstalledBaiduMap", []);
 	},
 
 	naviWithBaiduMap:function(origin,destination) {

@@ -80,6 +80,7 @@ public class ExtGapToolkits extends CordovaPlugin {
         }else if (action.equals("haveInstalledBaiduMap")) {
 			Log.i(DTAG,"haveInstalledBaiduMap  begin");
 			boolean b=this.haveInstalledBaiduMap();
+			//			callbackContext.success(b);
 			callbackContext.sendPluginResult(new PluginResult(status,b));
 			Log.i(DTAG,"haveInstalledBaiduMap  end");
             //callbackContext.sendPluginResult(new PluginResult(status, b));//
@@ -166,6 +167,10 @@ public class ExtGapToolkits extends CordovaPlugin {
 	}
 	
     
+
+		//Uri uri = Uri.parse(src);
+	    //String tmpPath1=uri.getPath();
+	    //String tmpPath2=uri.toString();
     public void clipImage(String src,String dest,int x,int y,int w,int h) {
 	    BitmapFactory.Options opt = new BitmapFactory.Options();
 	    opt.inPreferredConfig=Bitmap.Config.RGB_565;//表示16位位图 565代表对应三原色占的位数
