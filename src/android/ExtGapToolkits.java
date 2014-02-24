@@ -106,7 +106,7 @@ public class ExtGapToolkits extends CordovaPlugin {
             return true;
         }else if (action.equals("encodeFile2Base64")) {
 			Log.i(DTAG,"encodeFile2Base64  begin");
-            String b64String=this.encodeFile2Base64(args.getString(0),args.getString(1));
+            String b64String=this.encodeFile2Base64(args.getString(0));
             callbackContext.sendPluginResult(new PluginResult(status,b64String));
 			Log.i(DTAG,"encodeFile2Base64  end");
             //callbackContext.sendPluginResult(new PluginResult(status, b));//
@@ -250,7 +250,7 @@ public class ExtGapToolkits extends CordovaPlugin {
     
 
 		//只适合小文件,应该分段读取,利用 ByteArrayOutputStream 
-	public String encodeFile2Base64(String path,String b64String) {
+	public String encodeFile2Base64(String path) {
 		
 		FileInputStream inputFile = null;
 		byte[] buffer =null;

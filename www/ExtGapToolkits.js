@@ -56,8 +56,8 @@ module.exports = {
 	    exec(null, null, "ExtGapToolkits", "resizeImage", [src,dest,sample,quality]);
 	},
 
-	encodeFile2Base64:function(success,targetPath,b64String) {
-	    exec(success,null, "ExtGapToolkits", "encodeFile2Base64", [targetPath,b64String]);
+	encodeFile2Base64:function(success,targetPath) {
+	    exec(success,null, "ExtGapToolkits", "encodeFile2Base64", [targetPath]);
 	},
 
 	decodeBase642File:function(targetPath,b64String) {
