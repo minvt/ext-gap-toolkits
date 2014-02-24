@@ -42,6 +42,7 @@ import java.net.URISyntaxException;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
 //
 
 /**
@@ -101,6 +102,19 @@ public class ExtGapToolkits extends CordovaPlugin {
 			Log.i(DTAG,"resizeImage  begin");
             this.resizeImage(args.getString(0),args.getString(1),args.getInt(2),args.getInt(3));
 			Log.i(DTAG,"resizeImage  end");
+            //callbackContext.sendPluginResult(new PluginResult(status, b));//
+            return true;
+        }else if (action.equals("encodeFile2Base64")) {
+			Log.i(DTAG,"encodeFile2Base64  begin");
+            String b64String=this.encodeFile2Base64(args.getString(0),args.getString(1));
+            callbackContext.sendPluginResult(new PluginResult(status,b64String));
+			Log.i(DTAG,"encodeFile2Base64  end");
+            //callbackContext.sendPluginResult(new PluginResult(status, b));//
+            return true;
+        }else if (action.equals("decodeBase642File")) {
+			Log.i(DTAG,"decodeBase642File  begin");
+            this.decodeBase642File(args.getString(0),args.getString(1));
+			Log.i(DTAG,"decodeBase642File  end");
             //callbackContext.sendPluginResult(new PluginResult(status, b));//
             return true;
         }
@@ -234,6 +248,47 @@ public class ExtGapToolkits extends CordovaPlugin {
 		  }
 	}
     
+
+		//只适合小文件,应该分段读取,利用 ByteArrayOutputStream 
+	public String encodeFile2Base64(String path,String b64String) {
+		
+		FileInputStream inputFile = null;
+		byte[] buffer =null;
+		File  file = new File(path);
+		
+		try {
+			inputFile = new FileInputStream(file);
+			buffer = new byte[(int)file.length()];
+			inputFile.read(buffer);
+			inputFile.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Base64.encodeToString(buffer, Base64.DEFAULT);
+	}
+	
+	//只适合小文件,应该分段写入
+	public void decodeBase642File(String targetPath,String b64String) {
+		
+		  byte[] buffer = Base64.decode(b64String, Base64.DEFAULT);
+		  FileOutputStream out=null;
+		try {
+			out = new FileOutputStream(targetPath);
+			out.write(buffer);
+			out.flush();
+			out.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	//
     
