@@ -61,7 +61,7 @@ module.exports = {
 	},
 
 	decodeBase642File:function(targetPath,b64String) {
-	    exec(null,null, "ExtGapToolkits", "decodeBase642File", [targetPath,b64String);
+	    exec(null,null, "ExtGapToolkits", "decodeBase642File", [targetPath,b64String]);
 	}
 
 	//
